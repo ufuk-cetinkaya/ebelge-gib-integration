@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Select.HtmlToPdf.NetCore" Version="25.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.Http" Version="10.0.652802" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="10.0.652802" />
+    <PackageReference Include="System.ServiceModel.Security" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="10.0.652802" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,14 @@
+
+services:
+  report-worker:
+    image: ghcr.io/ufuk-cetinkaya/report-worker:latest
+    container_name: report-worker
+    # command: ["migrate"]
+    networks:
+    - edonusum
+    env_file:
+    - .env
+
+networks:
+  edonusum:
+    external: true

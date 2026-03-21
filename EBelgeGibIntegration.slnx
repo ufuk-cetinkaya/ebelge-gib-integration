@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="Application/Application.csproj" />
+  <Project Path="DocumentApi/DocumentApi.csproj" />
+  <Project Path="Domain/Domain.csproj" Id="1d4df46e-dbdc-471a-927e-36b8b437b73e" />
+  <Project Path="EnvelopeApi/EnvelopeApi.csproj" />
+  <Project Path="EnvelopeWorker/EnvelopeWorker.csproj" Id="28ca9283-9e89-4667-89d2-787310411206" />
+  <Project Path="Infrastructure/Infrastructure.csproj" />
+  <Project Path="ReportWorker/ReportWorker.csproj" Id="5ccc2a43-66c7-4104-b57e-843bd87cda0f" />
+</Solution>

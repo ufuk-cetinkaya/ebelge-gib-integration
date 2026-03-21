@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mssql-server
+  namespace: edonusum
+spec:
+  serviceName: mssql-server
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mssql-server
+  template:
+    metadata:
+      labels:
+        app: mssql-server
+    spec:
+      containers:
+        - name: mssql-server
+          image: mcr.microsoft.com/mssql/server:2022-latest
+          ports:
+            - containerPort: 1433
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mssql-secret
+                  key: SA_PASSWORD
+          volumeMounts:
+            - name: data
+              mountPath: /var/opt/mssql
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi

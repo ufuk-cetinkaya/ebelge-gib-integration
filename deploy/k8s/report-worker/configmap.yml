@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: report-worker-config
+  namespace: edonusum
+data:
+  AppSettings__EArsivUrl: https://test.efatura.gov.tr/earsiv/services1/EArsivWsPort
+  AppSettings__SignerUrl: http://signer-ws/signerws
+  AppSettings__DocumentApiUrl: http://document-api/document
+  AppSettings__EntegratorVkn: "12345678917"

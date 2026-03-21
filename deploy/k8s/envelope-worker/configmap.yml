@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: envelope-worker-config
+  namespace: edonusum
+data:
+  AppSettings__EFaturaUrl: https://merkeztest.gib.gov.tr/EFaturaMerkez/services1/EFatura
+  AppSettings__GibUserUrl: http://gibuser-api
+  AppSettings__SignerUrl: http://signer-ws/signerws

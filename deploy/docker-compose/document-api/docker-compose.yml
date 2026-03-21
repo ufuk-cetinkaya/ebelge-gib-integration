@@ -1,0 +1,16 @@
+
+services:
+  document-api:
+    image: ghcr.io/ufuk-cetinkaya/document-api:latest
+    container_name: document-api
+    # command: ["migrate"]
+    networks:
+    - edonusum
+    ports:
+    - 8081:8080
+    env_file:
+    - .env
+
+networks:
+  edonusum:
+    external: true    

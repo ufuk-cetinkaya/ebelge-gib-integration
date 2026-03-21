@@ -1,0 +1,16 @@
+{
+  "ExtendedData": {
+    "inputs": [
+      "https://test.efatura.gov.tr/earsiv/services/EArsivWsPort?wsdl"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "namespaceMappings": [
+      "*, EArsivWsService"
+    ],
+    "targetFramework": "net10.0",
+    "typeReuseMode": "All"
+  }
+}

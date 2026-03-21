@@ -1,0 +1,86 @@
+Bu döküman Universal Business Language (UBL) xsd şemalarının C# sınıflarına nasıl dönüştürüldüğünü anlatır.
+
+1. e-FaturaPaketi.zip ve UBL-TR1.2.1_Paketi.zip dosyaları GİB'in websitesinden indirilir.
+https://ebelge.gib.gov.tr/dosyalar/kilavuzlar/e-FaturaPaketi.zip
+https://ebelge.gib.gov.tr/dosyalar/kilavuzlar/UBL-TR1.2.1_Paketi.zip
+
+2. e-FaturaPaketi.zip dosyasından xsd klasörü çıkartılır.
+e-FaturaPaketi.zip\e-FaturaPaketi\xsd
+
+3. UBL-TR1.2.1_Paketi.zip\UBLTR_1.2.1_Paketi\xsdrt\maindoc içindeki dosyalar çıkardığımız xsd klasörü altındaki Envelope klasörüne atılır.
+UBL-TR1.2.1_Paketi.zip\UBLTR_1.2.1_Paketi\xsdrt\common klasörü de xsd klasörü altına atılır.
+
+4. xsd klasörünün olduğu konumda xsd komutunun çalıştırılabildiği bir terminal açılır.
+örneğin: Developer Command Prompt for VS 2022
+
+5. Terminalde xsd/Envelope klasörüne geçilerek aşağıdaki komut çalıştırılır.
+
+xsd /classes PackageProxy_1_2.xsd `
+  Package_1_2.xsd `
+  UBL-ApplicationResponse-2.1.xsd `
+  UBL-CreditNote-2.1.xsd `
+  UBL-DespatchAdvice-2.1.xsd `
+  UBL-Invoice-2.1.xsd `
+  UBL-ReceiptAdvice-2.1.xsd `
+  ../common/CCTS_CCT_SchemaModule-2.1.xsd `
+  ../common/UBL-CommonAggregateComponents-2.1.xsd `
+  ../common/UBL-CommonBasicComponents-2.1.xsd `
+  ../common/UBL-CommonExtensionComponents-2.1.xsd `
+  ../common/UBL-CommonSignatureComponents-2.1.xsd `
+  ../common/UBL-CoreComponentParameters-2.1.xsd `
+  ../common/UBL-ExtensionContentDataType-2.1.xsd `
+  ../common/UBL-QualifiedDataTypes-2.1.xsd `
+  ../common/UBL-SignatureAggregateComponents-2.1.xsd `
+  ../common/UBL-SignatureBasicComponents-2.1.xsd `
+  ../common/UBL-UnqualifiedDataTypes-2.1.xsd `
+  ../common/UBL-XAdESv132-2.1.xsd `
+  ../common/UBL-XAdESv141-2.1.xsd `
+  ../common/UBL-xmldsig-core-schema-2.1.xsd `
+  ../HRXML/UserAccount.xsd `
+  ../HRXML/www.openapplications.org_oagis_9/Components.xsd `
+  ../HRXML/www.openapplications.org_oagis_9_codelists/CodeLists.xsd `
+  ../HRXML/www.openapplications.org_oagis_9_qualifieddatatypes_1.1/QualifiedDataTypes.xsd `
+  ../HRXML/www.openapplications.org_oagis_9_unqualifieddatatypes_1.1/UnqualifiedDataTypes.xsd `
+  ../Userlist/NewUserList.xsd `
+  /out:../
+
+6. Komut başarılı bir şekilde çalışırsa xsd klasörü altında NewUserList.cs adında bir dosya oluşacaktır. (Komuttaki son xsd dosyasının adı NewUserList olduğu için)
+Dosyanın içinde komutta adı geçen tüm xsd şemalarının C# sınıflarına dönüştürülmüş hali bulunmaktadır.
+
+Komutun çıktısı:
+
+Microsoft (R) Xml Schemas/DataTypes support utility
+[Microsoft (R) .NET Framework, Version 4.8.3928.0]
+Copyright (C) Microsoft Corporation. All rights reserved.
+Schema validation warning: complexType 'urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2:ExtensionContentType' zaten bildirilmiş. Line 24, position 4.
+
+Warning: Schema could not be validated. Class generation may fail or may produce incorrect results.
+
+Writing file '../NewUserList.cs'.
+
+7. Şema validasyonu yaparken hata almamak için UBL-xmldsig-core-schema-2.1.xsd dosyasındaki DOCTYPE schema yorum satırı yapılmalıdır.
+
+<!--DOCTYPE schema
+ [
+   <!ATTLIST schema 
+     xmlns:ds CDATA #FIXED "http://www.w3.org/2000/09/xmldsig#">
+   <!ENTITY dsig 'http://www.w3.org/2000/09/xmldsig#'>
+   <!ENTITY % p ''>
+   <!ENTITY % s ''>
+  ]-->
+
+8. Schematron hatası almamak için oluşturduğumuz sınıflar arasında bulunan StandardBusinessDocument sınıfına aşağıdaki schemaLocation özniteliği eklenmelidir.
+
+[XmlAttribute("schemaLocation", Namespace = "http://www.w3.org/2001/XMLSchema-instance")]
+public string SchemaLocation { get; set; } = "http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader PackageProxy_1_2.xsd";
+
+9. Xsd den class üretme işlemi e-arşiv paketi için aşağıdaki gibi yapılabilir.
+
+https://ebelge.gib.gov.tr/dosyalar/kilavuzlar/earsiv_paket_v1.1_6.zip
+
+xsd /classes EArsiv.xsd `
+  eArsivVeri.xsd `
+  faturaOzet.xsd `
+  XAdES.xsd `
+  XAdESv141.xsd `
+  xmldsig-core-schema.xsd
