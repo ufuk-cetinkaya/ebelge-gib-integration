@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    tags:
+    - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+        - app_name: document-api
+          dockerfile: DocumentApi/Dockerfile
+        - app_name: envelope-api
+          dockerfile: EnvelopeApi/Dockerfile
+        - app_name: envelope-worker
+          dockerfile: EnvelopeWorker/Dockerfile
+        - app_name: report-worker
+          dockerfile: ReportWorker/Dockerfile
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to GHCR
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ${{ matrix.dockerfile }}
+        push: true
+        tags: |
+          ghcr.io/${{ github.repository_owner }}/${{ matrix.app_name }}:latest
+          ghcr.io/${{ github.repository_owner }}/${{ matrix.app_name }}:${{ github.ref_name }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
