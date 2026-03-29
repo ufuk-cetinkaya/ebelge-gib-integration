@@ -1,4 +1,4 @@
-# EBelgeGibIntegration
+# e-Belge GİB Entegrasyonu
 
 Bu repoda e-fatura ve e-irsaliye gönderme, alma işlemleriyle e-arşiv fatura raporlama süreçlerinin GİB (Gelir İdaresi Başkanlığı) standartlarına uygun olarak yöneten uygulamalar bulunmaktadır.
 
@@ -28,9 +28,24 @@ Bu repoda e-fatura ve e-irsaliye gönderme, alma işlemleriyle e-arşiv fatura r
 - SendReports: Raporları GİB'in servisine gönderir.
 - CheckStatus: Rapor durumlarını GİB servisinden sorgular.
 
-🛠 Teknik Yığın
+
+🚀 Dağıtım (Deployment)
+Uygulamanın farklı ortamlardaki kurulum süreçleri için aşağıdaki ilgili altyapı depolarını inceleyebilirsiniz:
+
+Cloud (AKS): Kubernetes manifestleri ile bulut ortamına dağıtım detayları için infra reposuna göz atın.
+
+On-Prem / Local: Yerel makinelerde veya private cloud ortamlarında manuel kurulum (Docker-Desktop/K8s) için edonusum-gitops reposunu inceleyin.
+
+🛠 Tech Stack & Architecture
 Framework: .NET 10
-Dil: C# 14
-Zamanlayıcı: Quartz.NET
+Language: C# 14
 IDE: Visual Studio 2026
+Architecture: Microservices & Clean Architecture
+API Style: Minimal APIs
+Scheduler: Quartz.NET
 ORM: EF CORE
+Database Engine: MSSQL Server
+Infrastructure: Docker & Kubernetes uyumlu (Cloud-Native)
+
+🧪 Test ve Entegrasyon
+Uygulamanın sunduğu uç noktaları (endpoints) test etmek için Tests klasöründe bir Postman Collection ile SoapUI projesi bulunmaktadır.
