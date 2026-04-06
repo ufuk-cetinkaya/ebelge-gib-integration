@@ -5,7 +5,10 @@ using DocumentApi;
 using Domain.Repositories;
 using Infrastructure.Persistence;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +48,36 @@ builder.Logging.ClearProviders();
 
 builder.Logging.AddConsole();
 
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var secretKey = jwtSettings["Key"];
+
+if (string.IsNullOrEmpty(secretKey))
+{
+    throw new Exception("JWT Key is missing in configuration!");
+}
+
+var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+
+builder.Services.AddAuthentication()
+.AddJwtBearer(options =>
+{
+    options.MapInboundClaims = false;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = key,
+        ValidateIssuer = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidateAudience = true,
+        ValidAudience = jwtSettings["Audience"],
+        ClockSkew = TimeSpan.Zero,
+        RoleClaimType = "role",
+        NameClaimType = "sub"
+    };
+});
+
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 if (args.Contains("migrate"))
@@ -73,6 +106,10 @@ app.MapHealthChecks("/health/live");
 
 app.MapHealthChecks("/health/ready");
 
+app.UseAuthentication();
+
+app.UseAuthorization();
+
 var documentGroup = app.MapGroup("/document");
 
 documentGroup.MapGet("/", async (
@@ -81,7 +118,7 @@ documentGroup.MapGet("/", async (
 {
     var documents = await documentService.GetDocuments(filter);
     return TypedResults.Ok(documents);
-});
+}).RequireAuthorization(new AuthorizeAttribute { Roles = "Admin" }); ;
 
 documentGroup.MapGet("/preview/{uuid:guid}/{type}", async (
     Guid uuid,
@@ -96,7 +133,7 @@ documentGroup.MapGet("/preview/{uuid:guid}/{type}", async (
         _ => throw new BadHttpRequestException("Döküman tipi xml, html veya pdf olmalıdır.")
     };
     return TypedResults.File(content, contentType);
-});
+}).RequireAuthorization(new AuthorizeAttribute { Roles = "Admin" });
 
 documentGroup.MapPost("/upload", async (
     HttpRequest request,
@@ -108,7 +145,7 @@ documentGroup.MapPost("/upload", async (
     await request.Body.CopyToAsync(ms);
     await documentService.LoadDocument(ms.ToArray());
     return TypedResults.Ok();
-});
+}).RequireAuthorization(new AuthorizeAttribute { Roles = "Admin" });
 
 documentGroup.MapDelete("/cancel/{uuid:guid}", async (
     Guid uuid,
@@ -116,6 +153,6 @@ documentGroup.MapDelete("/cancel/{uuid:guid}", async (
 {
     await documentService.CancelDocument(uuid);
     return TypedResults.Ok();
-});
+}).RequireAuthorization(new AuthorizeAttribute { Roles = "Admin" });
 
 app.Run();
