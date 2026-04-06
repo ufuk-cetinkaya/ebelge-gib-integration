@@ -8,8 +8,8 @@ public record DocumentDto
     public string Senaryo { get; set; } = null!;
     public int DurumKodu { get; set; }
     public string DurumAciklamasi { get; set; } = null!;
-    public string? BelgeTipi { get; set; } = null!;
-    public decimal? OdencekTutar { get; set; }
+    public string? BelgeTipi { get; set; }
+    public decimal? OdenecekTutar { get; set; }
     public string? ParaBirimi { get; set; }
     public string GondericiVergiNo { get; set; } = null!;
     public string GondericiUnvan { get; set; } = null!;

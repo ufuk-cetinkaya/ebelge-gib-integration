@@ -20,7 +20,7 @@ internal static class Mapper
             dto.BelgeTarihi = document.IssueDate;
             dto.OlusturmaTarihi = document.CreateDate;
             dto.Yon = document.Direction.ToString() == "IN" ? "GELEN" : "GIDEN";
-            dto.OdencekTutar = document.PayableAmount;
+            dto.OdenecekTutar = document.PayableAmount;
             dto.ParaBirimi = document.Currency;
             dto.GondericiVergiNo = document.SupplierIdentifier;
             dto.GondericiUnvan = document.SupplierTitle;
@@ -210,6 +210,24 @@ internal static class Mapper
             {
                 code = 30;
                 desc = "Paketlendi";
+            }
+        }
+        else if (status == Status.RECEIVE)
+        {
+            if (subStatus == SubStatus.PROCESSING)
+            {
+                code = 38;
+                desc = "Alınıyor";
+            }
+            else if (subStatus == SubStatus.FAILED)
+            {
+                code = 39;
+                desc = "Alınamadı";
+            }
+            else if (subStatus == SubStatus.SUCCEED)
+            {
+                code = 40;
+                desc = "Alındı";
             }
         }
         return (code, desc);
