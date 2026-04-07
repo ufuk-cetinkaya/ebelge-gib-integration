@@ -13,7 +13,14 @@
       },
       "request": {
         "auth": {
-          "type": "noauth"
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
         },
         "method": "POST",
         "header": [
@@ -48,6 +55,16 @@
     {
       "name": "preview",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [],
         "url": {
@@ -70,10 +87,20 @@
     {
       "name": "cancel",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "http://localhost:8081/document/cancel/19fba15f-4428-4b7e-84df-8ad73102a7c7",
+          "raw": "http://localhost:8081/document/cancel/06b6f7b4-bd53-4b5b-9fc9-64c3b65853eb",
           "protocol": "http",
           "host": [
             "localhost"
@@ -82,7 +109,7 @@
           "path": [
             "document",
             "cancel",
-            "19fba15f-4428-4b7e-84df-8ad73102a7c7"
+            "06b6f7b4-bd53-4b5b-9fc9-64c3b65853eb"
           ]
         }
       },
@@ -92,12 +119,19 @@
       "name": "list",
       "request": {
         "auth": {
-          "type": "noauth"
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
         },
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8081/document?documentType=INVOICE&startDate=2025-01-01&endDate=2026-04-01&direction=IN",
+          "raw": "http://localhost:8081/document?documentType=INVOICE&startDate=2025-01-01&endDate=2026-04-10&direction=OUT&page=1&pagesize=25",
           "protocol": "http",
           "host": [
             "localhost"
@@ -117,11 +151,19 @@
             },
             {
               "key": "endDate",
-              "value": "2026-04-01"
+              "value": "2026-04-10"
             },
             {
               "key": "direction",
-              "value": "IN"
+              "value": "OUT"
+            },
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "pagesize",
+              "value": "25"
             }
           ]
         }
