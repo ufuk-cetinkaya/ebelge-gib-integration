@@ -7,7 +7,9 @@ public interface IDocumentRepository:IRepositoryBase<Document>
 {
     Task<byte[]?> GetContent(Guid uuid);
     Task<DateTime> GetMinDoc();
-    Task<List<Document>> GetDocuments(DateTime startDate, DateTime endDate, DocumentTypes documentType, Direction direction);
+
+    Task<int> GetDocumentCount(DateTime startDate, DateTime endDate, DocumentTypes documentType, Direction direction);
+    Task<List<Document>> GetDocuments(DateTime startDate, DateTime endDate, DocumentTypes documentType, Direction direction, int skip, int take);
     Task<List<Document>> GetLoadedDocs();
     Task<List<Document>> GetSignedDocs();
     Task<List<Document>> GetSignedDocs(string supplier, DateTime start, DateTime end);

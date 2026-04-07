@@ -54,7 +54,20 @@ public class DocumentRepository : RepositoryBase<Document>, IDocumentRepository
             .MinAsync();
     }
 
-    public async Task<List<Document>> GetDocuments(DateTime startDate, DateTime endDate, DocumentTypes documentType, Direction direction)
+    public async Task<int> GetDocumentCount(DateTime startDate, DateTime endDate, DocumentTypes documentType, Direction direction)
+    {
+        return await
+            _context
+            .Documents
+            .Where(a =>
+            a.IssueDate >= startDate &&
+            a.IssueDate <= endDate &&
+            a.Type == documentType &&
+            a.Direction == direction)
+            .CountAsync();
+    }
+
+    public async Task<List<Document>> GetDocuments(DateTime startDate, DateTime endDate, DocumentTypes documentType, Direction direction, int skip, int take)
     {
         return await
             _context
@@ -66,6 +79,8 @@ public class DocumentRepository : RepositoryBase<Document>, IDocumentRepository
             a.Type == documentType &&
             a.Direction == direction)
             .OrderBy(a => a.IssueDate)
+            .Skip(skip)
+            .Take(take)
             .ToListAsync();
     }
 

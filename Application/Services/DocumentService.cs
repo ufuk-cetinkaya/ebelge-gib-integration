@@ -57,19 +57,31 @@ public class DocumentService : IDocumentService
         }
     }
 
-    public async Task<List<DocumentDto>> GetDocuments(DocumentFilter filter)
+    public async Task<Page<DocumentDto>> GetDocuments(DocumentFilter filter)
     {
+        int recordCount = await _docRepo
+           .GetDocumentCount(filter.StartDate,
+           filter.EndDate,
+           filter.DocumentType,
+           filter.Direction);
+
+        Page<DocumentDto> page = new(recordCount, filter.PageSize, filter.Page);
+
         List<Document> documents = await _docRepo
             .GetDocuments(filter.StartDate,
             filter.EndDate,
             filter.DocumentType,
-            filter.Direction);
+            filter.Direction,
+            page.Skip,
+            page.Fetch);
+
         List<DocumentDto> dto = [];
         foreach (Document document in documents)
         {
             dto.Add(Mapper.Map(document));
         }
-        return dto;
+        page.Data = dto;
+        return page;
     }
 
     public async Task<byte[]> GetXmlContent(Guid uuid)
