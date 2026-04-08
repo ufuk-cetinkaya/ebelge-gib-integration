@@ -49,14 +49,13 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var secretKey = jwtSettings["Key"];
-
+var secretKey = jwtSettings["SecretKey"];
 if (string.IsNullOrEmpty(secretKey))
 {
     throw new Exception("JWT Key is missing in configuration!");
 }
-
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+int duration = int.Parse(jwtSettings["Duration"] ?? "24");
 
 builder.Services.AddAuthentication()
 .AddJwtBearer(options =>
@@ -67,9 +66,9 @@ builder.Services.AddAuthentication()
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = key,
         ValidateIssuer = true,
-        ValidIssuer = jwtSettings["Issuer"],
+        ValidIssuer = "AuthService",
         ValidateAudience = true,
-        ValidAudience = jwtSettings["Audience"],
+        ValidAudience = "AllServices",
         ClockSkew = TimeSpan.Zero,
         RoleClaimType = "role",
         NameClaimType = "sub"
