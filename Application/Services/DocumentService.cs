@@ -30,7 +30,7 @@ public class DocumentService : IDocumentService
         if (count > 0) throw new DocumentException("Belge sistemde mevcut.");
         document.Type = packageType;
         document.Content = content;
-        document.CreateDate = DateTime.Now;
+        document.CreatedAt = DateTime.Now;
         document.Status = Status.LOAD;
         document.SubStatus = SubStatus.SUCCEED;
         document.Direction = Direction.OUT;

@@ -30,7 +30,7 @@ public class Document
     public DateTime? CancelDate { get; set; }
     public int? CancelReportId { get; set; }
     public DateTime? SigningTime { get; set; }
-    public DateTime CreateDate { get; set; }
+    public DateTime CreatedAt { get; set; }
     public byte[] Content { get; set; } = null!;
     public Envelope? Envelope { get; set; }
     public Report? Report { get; set; }

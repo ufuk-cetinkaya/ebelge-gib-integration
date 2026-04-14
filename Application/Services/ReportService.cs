@@ -62,7 +62,7 @@ public class ReportService: IReportService
                 BolumBitis = bolumBitis,
                 BelgeSayisi = docs.Count,
                 BolumNo = bolumNo,
-                CreateDate = DateTime.Now,
+                CreatedAt = DateTime.Now,
                 RaporNo = Guid.NewGuid().ToString(),
                 Content = [],
                 Documents = docs
@@ -129,7 +129,7 @@ public class ReportService: IReportService
                 report.SubStatus = SubStatus.FAILED;
                 report.ErrorDesc = ex.Message.Length > 255 ? ex.Message[..255] : ex.Message;
             }
-            report.ModifyDate = DateTime.Now;
+            report.UpdatedAt = DateTime.Now;
             await _reportRepo.SaveChanges();
         }
     }
@@ -153,7 +153,7 @@ public class ReportService: IReportService
                 report.SubStatus = SubStatus.FAILED;
                 report.ErrorDesc = ex.Message.Length > 255 ? ex.Message[..255] : ex.Message;
             }
-            report.ModifyDate = DateTime.Now;
+            report.UpdatedAt = DateTime.Now;
             await _reportRepo.SaveChanges();
         }
     }
@@ -182,7 +182,7 @@ public class ReportService: IReportService
                 report.SubStatus = SubStatus.FAILED;
                 report.ErrorDesc = ex.Message.Length > 255 ? ex.Message[..255] : ex.Message;
             }
-            report.ModifyDate = DateTime.Now;
+            report.UpdatedAt = DateTime.Now;
             await _reportRepo.SaveChanges();
         }
     }
@@ -212,7 +212,7 @@ public class ReportService: IReportService
                 report.SubStatus = SubStatus.FAILED;
                 report.ErrorDesc = ex.Message.Length > 255 ? ex.Message[..255] : ex.Message;
             }
-            report.ModifyDate = DateTime.Now;
+            report.UpdatedAt = DateTime.Now;
             await _reportRepo.SaveChanges();
         }
     }
@@ -223,7 +223,7 @@ public class ReportService: IReportService
         {
             report.Status = status;
             report.SubStatus = SubStatus.PROCESSING;
-            report.ModifyDate = DateTime.Now;
+            report.UpdatedAt = DateTime.Now;
         }
         await _reportRepo.SaveChanges();
     }

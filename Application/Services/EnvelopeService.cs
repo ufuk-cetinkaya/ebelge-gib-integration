@@ -75,7 +75,7 @@ public class EnvelopeService : IEnvelopeService
                 Document document = CreateAppResponse(appResponse);
                 await _docRepo.Add(document);
             }
-            envelope.ModifyDate = DateTime.Now;
+            envelope.UpdatedAt = DateTime.Now;
             await _envRepo.SaveChanges();
         }
     }
@@ -117,7 +117,7 @@ public class EnvelopeService : IEnvelopeService
                 XmlDocument envXml = Util.Serialize(sbd);
                 envXml.DocumentElement?.AppendChild(envXml.ImportNode(package, true));
                 Envelope envelope = Mapper.Map(sbd.StandardBusinessDocumentHeader);
-                envelope.CreateDate = DateTime.Now;
+                envelope.CreatedAt = DateTime.Now;
                 envelope.Status = Status.PACKAGE;
                 envelope.SubStatus = SubStatus.SUCCEED;
                 envelope.PackageType = document.Type;
@@ -168,7 +168,7 @@ public class EnvelopeService : IEnvelopeService
                 envelope.SubStatus = SubStatusByCode(code);
                 envelope.StatusCheck = StatusCheckByCode(code);
             }
-            envelope.ModifyDate = DateTime.Now;
+            envelope.UpdatedAt = DateTime.Now;
             await _envRepo.SaveChanges();
         }
     }
@@ -203,7 +203,7 @@ public class EnvelopeService : IEnvelopeService
                 envelope.SubStatus = SubStatusByCode(code);
                 envelope.StatusCheck = StatusCheckByCode(code);
             }
-            envelope.ModifyDate = DateTime.Now;
+            envelope.UpdatedAt = DateTime.Now;
             await _envRepo.SaveChanges();
         }
     }
@@ -229,7 +229,7 @@ public class EnvelopeService : IEnvelopeService
             document.SubStatus = SubStatus.SUCCEED;
             document.Type = docType;
             document.Direction = Direction.IN;
-            document.CreateDate = DateTime.Now;
+            document.CreatedAt = DateTime.Now;
             document.Content = Encoding.UTF8.GetBytes(docXml);
             documents.Add(document);
         }
@@ -252,7 +252,7 @@ public class EnvelopeService : IEnvelopeService
             }
         }
         else envelope.SubStatus = SubStatus.FAILED;
-        envelope.ModifyDate = DateTime.Now;
+        envelope.UpdatedAt = DateTime.Now;
         await _envRepo.SaveChanges();
     }
 
@@ -276,7 +276,7 @@ public class EnvelopeService : IEnvelopeService
         document.SubStatus = SubStatus.SUCCEED;
         document.Type = DocumentTypes.APPLICATIONRESPONSE;
         document.Direction = Direction.OUT;
-        document.CreateDate = DateTime.Now;
+        document.CreatedAt = DateTime.Now;
         XmlDocument xml = Util.Serialize(appResponse);
         document.Content = Encoding.UTF8.GetBytes(xml.OuterXml);
         return document;
@@ -298,7 +298,7 @@ public class EnvelopeService : IEnvelopeService
         {
             envelope.Status = status;
             envelope.SubStatus = SubStatus.PROCESSING;
-            envelope.ModifyDate = DateTime.Now;
+            envelope.UpdatedAt = DateTime.Now;
             if (status == Status.RECEIVE)
             {
                 envelope.ResponseCode = 1100;

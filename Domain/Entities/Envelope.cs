@@ -20,8 +20,8 @@ public class Envelope
     public Status Status { get; set; }
     public SubStatus SubStatus { get; set; }
     public StatusCheck? StatusCheck { get; set; }
-    public DateTime CreateDate { get; set; }
-    public DateTime? ModifyDate { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
     public byte[] Content { get; set; } = null!;    
     public ICollection<Document>? Documents { get; set; }
 }

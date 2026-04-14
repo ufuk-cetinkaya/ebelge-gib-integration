@@ -36,7 +36,7 @@ public class EnvelopeHandler : IEnvelopeHandler
         StandardBusinessDocument sbd = Util.Deserialize<StandardBusinessDocument>(content);
         Envelope envelope = Mapper.Map(sbd.StandardBusinessDocumentHeader);
         envelope.Content = content;
-        envelope.CreateDate = DateTime.Now;
+        envelope.CreatedAt = DateTime.Now;
         envelope.Direction = Direction.IN;
         envelope.Status = Status.RECEIVE;
         envelope.SubStatus = SubStatus.NEW;

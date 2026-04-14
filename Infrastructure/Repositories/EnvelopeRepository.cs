@@ -78,10 +78,10 @@ public class EnvelopeRepository : RepositoryBase<Envelope>, IEnvelopeRepository
             _context
             .Envelopes
             .Where(a =>
-            a.CreateDate > DateTime.Now.AddDays(-7) && (
+            a.CreatedAt > DateTime.Now.AddDays(-7) && (
             a.StatusCheck == StatusCheck.N || (
             a.StatusCheck == StatusCheck.P &&
-            a.ModifyDate < DateTime.Now.AddHours(-2))))
+            a.UpdatedAt < DateTime.Now.AddHours(-2))))
             .Take(100)
             .ToListAsync();
     }

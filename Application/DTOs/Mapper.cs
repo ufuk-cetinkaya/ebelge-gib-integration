@@ -18,7 +18,7 @@ internal static class Mapper
             dto.DurumKodu = status.Item1;
             dto.DurumAciklamasi = status.Item2;
             dto.BelgeTarihi = document.IssueDate;
-            dto.OlusturmaTarihi = document.CreateDate;
+            dto.OlusturmaTarihi = document.CreatedAt;
             dto.Yon = document.Direction.ToString() == "IN" ? "GELEN" : "GIDEN";
             dto.OdenecekTutar = document.PayableAmount;
             dto.ParaBirimi = document.Currency;
@@ -50,11 +50,11 @@ internal static class Mapper
         appResponse.ReceiverParty.PartyName.Name.Value = envelope.SenderTitle;
         appResponse.DocumentResponse[0].Response.ReferenceID.Value = Guid.NewGuid().ToString();
         appResponse.DocumentResponse[0].DocumentReference.ID.Value = envelope.InstanceIdentifier;
-        appResponse.DocumentResponse[0].DocumentReference.IssueDate.Value = envelope.CreateDate;
+        appResponse.DocumentResponse[0].DocumentReference.IssueDate.Value = envelope.CreatedAt;
         appResponse.DocumentResponse[0].DocumentReference.DocumentType.Value = envelope.Type.ToString();
         appResponse.DocumentResponse[0].DocumentReference.DocumentTypeCode.Value = envelope.Type.ToString();
         appResponse.DocumentResponse[0].LineResponse[0].LineReference.DocumentReference.ID.Value = envelope.InstanceIdentifier;
-        appResponse.DocumentResponse[0].LineResponse[0].LineReference.DocumentReference.IssueDate.Value = envelope.CreateDate;
+        appResponse.DocumentResponse[0].LineResponse[0].LineReference.DocumentReference.IssueDate.Value = envelope.CreatedAt;
         appResponse.DocumentResponse[0].LineResponse[0].Response[0].ReferenceID.Value = Guid.NewGuid().ToString();
         appResponse.DocumentResponse[0].LineResponse[0].Response[0].ResponseCode.Value = envelope.ResponseCode.ToString();
         appResponse.DocumentResponse[0].LineResponse[0].Response[0].Description[0].Value = envelope.ResponseDesc;
